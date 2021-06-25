@@ -1,17 +1,24 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Card from './components/card';
 import Aux from './hoc/auxillary';
+import { HooksContext } from './HooksContext';
 
-const CounterTwo = (props) => {
+const CounterTwo = () => {
+  const { mount, seed } = useContext(HooksContext);
   const [counter, setCounter] = useState(0);
-  const [seed, setSeed] = useState(0);
+
+  useEffect(() => {
+    console.log('setting counter');
+    console.log('-----------------');
+    setCounter(seed);
+  }, [seed]);
 
   useEffect(() => {
     console.log('render');
     console.log('-----------------');
-  }, [counter, seed]);
+  }, [counter]);
 
   // eslint-disable-next-line arrow-body-style
   useEffect(() => {
@@ -19,15 +26,14 @@ const CounterTwo = (props) => {
       console.log('unmount');
       console.log('-----------------');
     };
-  }, [props.mount]);
+  }, [mount]);
 
-  useEffect(() => {
-    // console.log(seed,props.seed)
+  /* useEffect(() => {
+    console.log(seed, counter);
     console.log('DerivingStateFromProps');
     console.log('-----------------');
-    setCounter(props.seed);
-    setSeed(props.seed);
-  }, [props.seed]);
+    setCounter(seed);
+  }, [seed]); */
 
   const increment = () => {
     setCounter(counter + 1);
@@ -40,6 +46,7 @@ const CounterTwo = (props) => {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <Aux>
+      {console.log(seed, counter)}
       <div className="container">
         <Card caption="Increment" method={increment} />
         <Card caption="Decrement" method={decrement} />
