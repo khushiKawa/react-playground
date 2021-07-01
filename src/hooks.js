@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Card from './components/card';
 import CounterTwo from './counterTwo';
+import { HooksContext } from './HooksContext';
 
 const Hooks = () => {
-  const [mount, setMount] = useState(true);
-  const [ignoreProp, setIgnoreProp] = useState(0);
-  const [seed, setSeed] = useState(60);
+  const { setMount, mount } = useContext(HooksContext);
+  const { setIgnoreProp } = useContext(HooksContext);
+  const { setSeed } = useContext(HooksContext);
+  // const value = useContext(HooksContext);
+
+  // console.log(value);
 
   const mountHandler = () => {
     setMount(true);
@@ -34,9 +38,7 @@ const Hooks = () => {
         <Card caption="IgnoreProp" method={ignorePropHandler} />
         <Card caption="SeedGenerator" method={seedGeneratorHandler} />
       </div>
-      {mount && (
-        <CounterTwo ignoreProp={ignoreProp} seed={seed} mount={mount} />
-      )}
+      {mount && <CounterTwo />}
     </div>
   );
 };
